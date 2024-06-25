@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 <style>
     * {
         margin: 0; padding: 0;
@@ -41,7 +44,7 @@
         transform: translate(-50%,-50%);
     }
     
-    h3 {
+    h2 {
         text-align: center;
 		justify-content: center;
         font-weight: normal;
@@ -49,12 +52,20 @@
 		white-space: nowrap;
     }
 	
+	h4 {
+        text-align: center;
+		justify-content: center;
+        font-weight: normal;
+		margin-bottom: 20px;
+		word-wrap: break-word;
+    }
+	
 	h5 {
         text-align: center;
 		justify-content: center;
         font-weight: normal;
 		margin-bottom: 20px;
-		white-space: nowrap;
+		word-wrap: break-word;
     }
     
     input {
@@ -80,6 +91,10 @@
         font-size: 16px;
 		float: right;
     }
+	
+	label {
+		font-size: 13px;
+	}
 	
 	.quantext {
         width: 220px;
@@ -148,6 +163,28 @@
 	  transform: scale(2);
 	}
 	
+	.add-btn {
+	  background-color: #D3D3D3;
+	  border: solid;
+	  color: black;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  cursor: pointer;
+	  float: left;
+	}
+	
+	.del-btn {
+	  background-color: #ff0000;
+	  border: solid;
+	  color: black;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  cursor: pointer;
+	  float: left;
+	}
+	
 	.label-class {
 		float: left;
 	}
@@ -172,18 +209,34 @@
 		height:500px;
 		overflow-y:auto;
 	}
+	
+	.hidden {
+		display: none;
+    }
+	
 </style>
 </head>
 <body>
+	<div class="container">
+
+            <div id="messages" class="hide" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <div id="messages_content"></div>
+            </div>
 	<div id="container">
     <div class="centered">
     <div class="form-wrap" id="receiptForm">
         <form>
             <div><h3> Homegrown Produce Receipt Form </h3></div>
-			<div><h5><i>(To be completed by Fran and Lela)</i></h5></div>
+			<div><h4> <i>(All fields within <b style="color: #e32;">*</b> must be completed)</i> </h4></div>
+			<div><h5><i>To be completed by Lela (when handing off to Fran)</i></h5></div>
 			<div>
-            <label class="label-class mand">Your Name:</label>
-			<span><input type="text" name="name" id="name" pattern="^[^\d]+$" title="Enter a valid name" value="" required></span>
+            <label class="mand label-class">First Name:</label>
+			<span><input type="text" name="fname" id="fname" pattern="^[^\d]+$" title="Enter a valid name" value="" required></span>
+			</div>
+			<div>
+            <label class="mand label-class">Last Name:</label>
+			<span><input type="text" name="lname" id="lname" pattern="^[^\d]+$" title="Enter a valid name" value="" required></span>
 			</div>
 			<div>
             <label class="label-class mand">Produce Transfer Date:</label>
@@ -194,21 +247,10 @@
 			<span><input type="time" id="pickuptime" name="pickuptime" required></span>
 			</div>
 			<div>
-            <label class="label-class mand">Produce Transfer Site:</label>
-			<span><select name="pickupsite" id="pickupsite" required>
-				<option value="">-Select-</option> 
-				<option value="lfn">Lexington</option>
-				<option value="supplier">Main</option>
-				<option value="supplier">Stanton</option>
-				<option value="supplier">North Side</option>
-				<option value="supplier">Madisonville</option>
-				<option value="supplier">Other</option>
-			</select></span>
+            <label class="label-class mand">Produce Transfer Location:</label>
+			<span><input type="text" name="pickupadd" id="pickupadd" title="Enter a valid address" value="" required></span>
 			</div>
-			<div>
-            <label class="label-class">Location on Site:</label>
-			<span><input type="text" name="pickupadd" id="pickupadd" title="Enter a valid address" value=""></span>
-			</div>
+			<div id="produce-details">
 			<div>
 			<label class="mand label-class">Crop Transferred:</label>
 			<span>
@@ -246,19 +288,13 @@
 					<option value="counts">counts</option>
 				</select>
 			</span>
-			<div>
-			<label class="label-class">Upload a Photo:</label>
-			<span><input type="file" title="Enter a valid name"></span>
 			</div>
+			<div><input type="button" class="add-btn" value="Add a produce" onclick="addProduceDetails()"></div><br><br><br>
 			<div>
-			<!-- <label>Food bins/crates returned to the distributor?</label> -->
-            <label class="label-class mand">Food bins/crates returned?</label>
-			<span><select name="producecleaned" id="producecleaned" required>
-				<option value="">-Select-</option>
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</select></span>
+			<label class="mand label-class">Upload a Photo:</label>
+			<span><input type="file" multiple="" data-max_length="5" accept=".jpg,.jpeg, .png" title="Enter a valid name" required></span>
 			</div>
+			<div><h5><i><b>Note:</b>&nbsp;Please Upload a Closeup of the Produce item(s). Also, to select multiple files, hold down the CTRL or SHIFT key while selecting.</i></h5></div>
 			<div>
 			<label class="label-class">Comments:</label>
 			<span><input type="text" title="Enter a valid name"></span>
@@ -268,36 +304,107 @@
 			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			  <strong>{{ prediction_text }}</strong>
 			</div>
+			<div><img src="images/homegrown-logo-new-final.png" alt="Homegrown Logo" style="width: 120px; height: 120px; margin-left: 170px;">
 			</div>
         </form>
     </div>
     </div>
 	</div>
-</body>
+	</div>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
-<!-- function addProduce() {
-  // Create a new input field
-  //var input = document.createElement("input");
 
-  // Set the type of input field & label
-  //input.type = "text";
-  //input.label = "Produce ID"
+function addProduceDetails() {
+	const div = document.createElement('div');
 
-  // Add the input field to the form
-  //document.getElementById("produceInputs").appendChild(input);
-//}
- -->
+  div.className = 'new-produce';
+
+  div.innerHTML = `
+    <div>
+			<label class="mand label-class">Crops Received:</label>
+			<span>
+				<select name="cropsList" id="cropsList" required>
+				<option value="">-Select-</option> 
+				<option value="TOMATO">Tomato</option>
+				<option value="YELLOW ONION">Yellow Onion</option>
+				<option value="RED ONION">Red Onion</option>
+				<option value="GARLIC">Garlic</option>
+				<option value="SWEET POTATO">Sweet Potato</option>
+				<option value="RED BELL PEPPER">Red Bell Pepper</option>
+				<option value="SERRANO PEPPER">Serrano Pepper</option> 
+				<option value="JALAPEÑO PEPPER">Jalapeño Pepper</option>
+				<option value="HABANERO PEPPER">Habanero Pepper</option>
+				<option value="SCOTCH BONNET PEPPER">Scotch Bonnet Pepper</option>
+				<option value="CILANTRO">Cilantro</option>
+				<option value="PARSLEY">Parsley</option>
+				<option value="SHALLOTS">Shallots</option>
+				<option value="GREEN ONION">Green Onion</option>
+				<option value="BASIL">Basil</option>
+				<option value="CAYENNE PEPPER">Cayenne Pepper</option>
+				</select>
+			</span>
+			</div>
+			<div>
+            <label class="label-class">Harvest Date:</label>
+			<span><input type="date" id="harvestdate" name="harvestdate"></span>
+			</div>
+			<div>
+            <label class="mand label-class">Produce ID:</label>
+			<span><input type="text" id="produceid" name="produceid" onclick="generateProduceId(this)"></span>
+			</div>
+			<div>
+            <label class="mand label-class">Quantity (with units):</label>
+			<span>
+				<input type="text" class="quantext" id="quantity" name="quantity">
+				<select name="units" class="shortselect" id="units" required>
+					<option value="">-Select-</option> 
+					<option value="lb">lb</option>
+					<option value="counts">counts</option>
+				</select>
+			</span>
+			</div>
+			<div>
+            <label class="mand label-class">Quality of the Produce</label>
+			<span><select name="quality" id="quality" required>
+				<option value="">-Select-</option>
+				<option value="excellent">Excellent</option>
+				<option value="adequate">Adequate</option>
+				<option value="poor">Poor</option>
+			</select></span>
+			</div>
+			<div>
+            <label class="mand label-class">Requires Refrigeration?</label>
+			<span>
+				<select name="refrigerate" id="refrigerate" required>
+					<option value="">-Select-</option>
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</select>
+			</span>
+			</div>
+    <input type="button" class="del-btn" value="Delete Produce" onclick="removeProduceDetails(this)" /><br><br><br><br>
+  `;
+
+  document.getElementById('produce-details').appendChild(div);
+}
+
+function removeProduceDetails(input) {
+  document.getElementById('produce-details').removeChild(input.parentNode);
+}
+
 // Get the form element
 const form = document.querySelector('form');
 
 // Add a submit event listener to the form
-form.addEventListener('submit', function(event) {
+form.addEventListener('submit', function(event) { debugger;
   // Prevent the form from submitting
-  event.preventDefault();
-
-//var produceId = document.getElementById("produceid").value;
-  // Display a success message
-  alert('Form submitted successfully!);
+  //event.preventDefault();
+  
+	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
+	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
+	event.preventDefault();
 });
+
 </script>
+</body>
 </html>
