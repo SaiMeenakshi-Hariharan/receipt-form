@@ -250,45 +250,6 @@
             <label class="label-class mand">Produce Transfer Location:</label>
 			<span><input type="text" name="pickupadd" id="pickupadd" title="Enter a valid address" value="" required></span>
 			</div>
-			<div id="produce-details">
-			<div>
-			<label class="mand label-class">Crop Transferred:</label>
-			<span>
-				<select name="cropsList" id="cropsList" required>
-				<option value="">-Select-</option> 
-				<option value="TOMATO">Tomato</option>
-				<option value="YELLOW ONION">Yellow Onion</option>
-				<option value="RED ONION">Red Onion</option>
-				<option value="GARLIC">Garlic</option>
-				<option value="SWEET POTATO">Sweet Potato</option>
-				<option value="RED BELL PEPPER">Red Bell Pepper</option>
-				<option value="SERRANO PEPPER">Serrano Pepper</option> 
-				<option value="JALAPEÑO PEPPER">Jalapeño Pepper</option>
-				<option value="HABANERO PEPPER">Habanero Pepper</option>
-				<option value="SCOTCH BONNET PEPPER">Scotch Bonnet Pepper</option>
-				<option value="CILANTRO">Cilantro</option>
-				<option value="PARSLEY">Parsley</option>
-				<option value="SHALLOTS">Shallots</option>
-				<option value="GREEN ONION">Green Onion</option>
-				<option value="BASIL">Basil</option>
-				<option value="CAYENNE PEPPER">Cayenne Pepper</option>
-				</select>
-			</span>
-			</div>
-			<div>
-            <label class="label-class mand">Produce ID:</label>
-			<span><input type="text" name="pickupadd" id="pickupadd" title="Enter a valid address" value="" required></span>
-			</div>
-			<label class="mand label-class">Quantity (with units):</label>
-			<span>
-				<input type="number" class="quantext" id="quantity" name="quantity">
-				<select name="units" class="shortselect" id="units" required>
-					<option value="">-Select-</option> 
-					<option value="lb">lb</option>
-					<option value="counts">counts</option>
-				</select>
-			</span>
-			</div>
 			<div><input type="button" class="add-btn" value="Add a produce" onclick="addProduceDetails()"></div><br><br><br>
 			<div>
 			<label class="mand label-class">Upload a Photo:</label>
@@ -321,7 +282,7 @@ function addProduceDetails() {
 
   div.innerHTML = `
     <div>
-			<label class="mand label-class">Crops Received:</label>
+			<label class="mand label-class">Crops Transferred:</label>
 			<span>
 				<select name="cropsList" id="cropsList" required>
 				<option value="">-Select-</option> 
@@ -345,12 +306,8 @@ function addProduceDetails() {
 			</span>
 			</div>
 			<div>
-            <label class="label-class">Harvest Date:</label>
-			<span><input type="date" id="harvestdate" name="harvestdate"></span>
-			</div>
-			<div>
             <label class="mand label-class">Produce ID:</label>
-			<span><input type="text" id="produceid" name="produceid" onclick="generateProduceId(this)"></span>
+			<span><input type="text" id="produceid" name="produceid"></span>
 			</div>
 			<div>
             <label class="mand label-class">Quantity (with units):</label>
@@ -359,26 +316,8 @@ function addProduceDetails() {
 				<select name="units" class="shortselect" id="units" required>
 					<option value="">-Select-</option> 
 					<option value="lb">lb</option>
-					<option value="counts">counts</option>
-				</select>
-			</span>
-			</div>
-			<div>
-            <label class="mand label-class">Quality of the Produce</label>
-			<span><select name="quality" id="quality" required>
-				<option value="">-Select-</option>
-				<option value="excellent">Excellent</option>
-				<option value="adequate">Adequate</option>
-				<option value="poor">Poor</option>
-			</select></span>
-			</div>
-			<div>
-            <label class="mand label-class">Requires Refrigeration?</label>
-			<span>
-				<select name="refrigerate" id="refrigerate" required>
-					<option value="">-Select-</option>
-					<option value="yes">Yes</option>
-					<option value="no">No</option>
+					<option value="count">count</option>
+     					<option value="bunches">bunches</option>
 				</select>
 			</span>
 			</div>
