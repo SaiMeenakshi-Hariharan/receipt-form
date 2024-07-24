@@ -248,7 +248,7 @@
 			</div>
 			<div>
             <label class="label-class mand">Produce Transfer Location:</label>
-			<span><input type="text" name="pickupadd" id="pickupadd" title="Enter a valid address" value="" required></span>
+			<span><input type="text" name="pickuplocation" id="pickupadd" title="Enter a valid address" value="" required></span>
 			</div>
 		<div id="produce-details">
             
@@ -256,18 +256,18 @@
 			<div><input type="button" class="add-btn" value="Add a produce" onclick="addProduceDetails()"></div><br><br><br><br>
 			<div>
 			<label class="mand label-class">Upload a Photo:</label>
-			<span><input type="file" multiple="" data-max_length="5" accept=".jpg,.jpeg, .png" title="Enter a valid name" required></span>
+			<span><input type="file" multiple="" data-max_length="5" accept=".jpg,.jpeg, .png" title="Enter a valid name" name="receiptphoto" required></span>
 			</div>
 			<div><h5><i><b>Note:</b>&nbsp;Please Upload a Closeup of the Produce item(s). Also, to select multiple files, hold down the CTRL or SHIFT key while selecting.</i></h5></div>
 			<div>
 			<label class="label-class">Comments:</label>
-			<span><input type="text" title="Enter a valid name"></span>
+			<span><input type="text" title="Enter comments" name="comments"></span>
+			<span><input type="hidden" name="cropsreceivedlist" id="cropsreceivedlist"></span>
+			<span><input type="hidden" name="produceidlist" id="produceidlist"></span>
+			<span><input type="hidden" name="quantitylist" id="quantitylist"></span>
+			<span><input type="hidden" name="unitslist" id="unitslist"></span>
 			</div><br>
             <button type="Submit" class="btn">Submit ></button><br>			
-			<div class="alert alert-success alert-dismissible" style="display: {{ display }};">
-			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			  <strong>{{ prediction_text }}</strong>
-			</div>
 			<div><img src="images/homegrown-logo-new-final.png" alt="Homegrown Logo" style="width: 120px; height: 120px; margin-left: 170px;">
 			</div>
         </form>
@@ -341,6 +341,62 @@ const form = document.querySelector('form');
 form.addEventListener('submit', function(event) { debugger;
   // Prevent the form from submitting
   //event.preventDefault();
+
+const produceIds = [];
+const cropsReceived = [];
+const quantities = [];
+const unitsList = [];
+						 
+    const produceDivs = document.querySelectorAll('.new-produce');
+    
+    produceDivs.forEach(function(produceDiv) {
+        const produceIdInput = produceDiv.querySelector('#produceid');
+        if (produceIdInput && produceIdInput.value) {
+            produceIds.push(produceIdInput.value);
+	    document.getElementById('produceidlist').value = produceIds.join(', ');
+        }
+	    
+	const cropsInput = produceDiv.querySelector('#cropsList');
+        if (cropsInput && cropsInput.value) {
+            cropsReceived.push(cropsInput.value);
+	    document.getElementById('cropsreceivedlist').value = cropsReceived.join(', ');
+        }
+	    
+	const quantitiesInput = produceDiv.querySelector('#quantity');
+        if (quantitiesInput && quantitiesInput.value) {
+            quantities.push(quantitiesInput.value);
+	    document.getElementById('quantitylist').value = quantities.join(', ');
+        }
+	    
+	const unitsInput = produceDiv.querySelector('#units');
+        if (unitsInput && unitsInput.value) {
+            unitsList.push(unitsInput.value);
+	    document.getElementById('unitslist').value = unitsList.join(', ');
+        }
+    });
+
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    fetch('https://script.google.com/macros/s/AKfycbxFIJozOGZdlhJqGuwwgcIE2q__Kl60jCiBvZkiO9TDm8W8Iw8ib0o8Gq4uCc3XHEZ8/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log('Success:', result);
+      // Handle the success response here
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle the error here
+    });
   
 	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
 	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
