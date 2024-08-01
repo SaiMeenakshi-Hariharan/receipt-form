@@ -376,12 +376,32 @@ const unitsList = [];
     });
 
     const formData = new FormData(this);
+
+    const fileInput = document.getElementById('receiptphoto');
+    const files = fileInput.files;
+
+    if (files.length > 0) {
+        const fileReaders = [];
+        const base64Strings = [];
+        
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            base64Strings.push(e.target.result.split(',')[1]); // Base64 string
+            if (base64Strings.length === files.length) {
+              formData.append('photoData', JSON.stringify(base64Strings));
+            }
+          };
+          reader.readAsDataURL(files[i]); // Convert to base64 string
+        }
+      }
+
     const data = {};
     formData.forEach((value, key) => {
       data[key] = value;
     });
 
-    fetch('https://script.google.com/macros/s/AKfycbwCMDtysnLBOvizzh5zrdBUpCJzg7X-ssD_9yO6naTQ_Kt7WqTIipgnFZRrgT4qtEfS/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbz9E2CBtXN4AyfuBjCFGnXYpyH4nkFFt9tZJsnoU7B4QiQP4BqJo2YbCLVsvO1mHmyq/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
