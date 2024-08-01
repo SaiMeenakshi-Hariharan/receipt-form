@@ -376,37 +376,12 @@ const unitsList = [];
     });
 
     const formData = new FormData(this);
-						 
-    const fileInput = document.getElementById('receiptphoto');
-    const files = fileInput.files;
-
-    if (files.length > 0) {
-        const fileReaders = [];
-        const base64Strings = [];
-        
-        for (let i = 0; i < files.length; i++) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            base64Strings.push(e.target.result.split(',')[1]); // Base64 string
-            if (base64Strings.length === files.length) {
-              formData.append('photoData', JSON.stringify(base64Strings));
-              sendData(formData);
-            }
-          };
-          reader.readAsDataURL(files[i]); // Convert to base64 string
-        }
-      } else {
-        sendData(formData);
-      }
-    });
-
-function sendData(formData) {
     const data = {};
     formData.forEach((value, key) => {
       data[key] = value;
     });
 
-    fetch('https://script.google.com/macros/s/AKfycbzPr7QhGUqGJZRtNT7X-TPz6DN5ax8f3aSjkxZTarX8OMf3R7190hRvBe6pvxeFNh3A/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzIx7GLEpwr5LLizbQs5yRJm0UiN5rhF2HjaU4SUVkOrRDdza5p3DqTdB__9J9p3XJO/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
@@ -426,7 +401,7 @@ function sendData(formData) {
 	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
 	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
 	event.preventDefault();
-}
+});
 
 </script>
 </body>
