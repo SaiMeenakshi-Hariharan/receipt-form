@@ -374,12 +374,44 @@ const unitsList = [];
     });
 
     const formData = new FormData(this);
+    const fileInput = document.getElementById('receipt-photo');
+      const files = fileInput.files;
+
+      if (files.length > 0) {
+        const fileReaders = [];
+        const base64Strings = [];
+        const fileTypes = [];
+
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            base64Strings.push(e.target.result.split(',')[1]); // Base64 string
+            fileTypes.push(files[i].type); // File MIME type
+            if (base64Strings.length === files.length) {
+              formData.append('photoData', JSON.stringify(base64Strings));
+              formData.append('fileTypes', JSON.stringify(fileTypes));
+	      sendData(formData);
+	    }
+	  };
+
+	  reader.onerror = function(e) {
+	        console.error("Error reading file: ", files[i].name, e);
+	  };
+
+	  reader.readAsDataURL(files[i]);
+	}
+      } else {
+	sendData(formData);
+      }		  
+});
+    
+function sendData(formData) {
     const data = {};
     formData.forEach((value, key) => {
       data[key] = value;
     });
     
-    fetch('https://script.google.com/macros/s/AKfycbzvxcT3aNlrMBERz-fiHLFwQnmTmGuklCJE05qoWtF_9Xzlg5MA5lmgwls0i7qknn8/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyj1_yrc9Zs4bIRzMitD_39HUXCTdB7KXV4wGqpsnqtbMjqbttkiuM9DWWR0XczJ4ac/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
@@ -399,7 +431,7 @@ const unitsList = [];
 	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
 	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
 	event.preventDefault();  
-});
+}
 
 </script>
 </body>
