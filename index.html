@@ -399,6 +399,11 @@ const unitsList = [];
 	      sendData(formData);
 	    }
 	  };
+		
+	  reader.onerror = function(e) {
+        	console.error("Error reading file: ", files[i].name, e);
+    	  };
+		
 	  reader.readAsDataURL(files[i]);
 	}
       } else {
