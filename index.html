@@ -339,8 +339,7 @@ const form = document.querySelector('form');
 
 // Add a submit event listener to the form
 form.addEventListener('submit', function(event) { debugger;
-  // Prevent the form from submitting
-  //event.preventDefault();
+	event.preventDefault();
 
 const produceIds = [];
 const cropsReceived = [];
@@ -440,7 +439,6 @@ function sendData(formData) {	debugger;
   
 	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
 	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
-	event.preventDefault();
 }
 
 </script>
