@@ -376,12 +376,39 @@ const unitsList = [];
     });
 
     const formData = new FormData(this);
+    const fileInput = document.getElementById('receiptphoto');
+      const files = fileInput.files;
+
+      if (files.length > 0) {
+        const fileReaders = [];
+        const base64Strings = [];
+        const fileTypes = [];
+
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            base64Strings.push(e.target.result.split(',')[1]); // Base64 string
+            fileTypes.push(files[i].type); // File MIME type
+            if (base64Strings.length === files.length) {
+              formData.append('photoData', JSON.stringify(base64Strings));
+              formData.append('fileTypes', JSON.stringify(fileTypes));
+	      sendData(formData);
+	    }
+	  };
+	  reader.readAsDataURL(files[i]);
+	}
+      } else {
+	sendData(formData);
+      }		  
+});
+    
+function sendData(formData) {					 
     const data = {};
     formData.forEach((value, key) => {
       data[key] = value;
     });
 
-    fetch('https://script.google.com/macros/s/AKfycbzIx7GLEpwr5LLizbQs5yRJm0UiN5rhF2HjaU4SUVkOrRDdza5p3DqTdB__9J9p3XJO/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbz4XzMRJtoE2Qm33KP6AVDCckhoRXpN-Sppx6spIdZLVTd34kXZ-Ck68ykcUn0Gx1Np/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
@@ -401,7 +428,7 @@ const unitsList = [];
 	$('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
 	$('#messages_content').html('<h4>Form Submitted Successfully!</h4>');
 	event.preventDefault();
-});
+}
 
 </script>
 </body>
