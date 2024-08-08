@@ -256,7 +256,7 @@
 			<div><input type="button" class="add-btn" value="Add a produce" onclick="addProduceDetails()"></div><br><br><br><br>
 			<div>
 			<label class="mand label-class">Upload a Photo:</label>
-			<span><input type="file" multiple="" data-max_length="5" accept=".jpg,.jpeg, .png" title="Enter a valid name" name="receiptphoto" required></span>
+			<span><input type="file" multiple="" data-max_length="5" accept=".jpg,.jpeg, .png" title="Enter a valid name" name="receiptphoto" id="receipt-photo" required></span>
 			</div>
 			<div><h5><i><b>Note:</b>&nbsp;Please Upload a Closeup of the Produce item(s). Also, to select multiple files, hold down the CTRL or SHIFT key while selecting.</i></h5></div>
 			<div>
@@ -376,7 +376,7 @@ const unitsList = [];
     });
 
     const formData = new FormData(this);
-    const fileInput = document.getElementById('receiptphoto');
+    const fileInput = document.getElementById('receipt-photo');
       const files = fileInput.files;
 
 	console.log("Files selected: ", files.length);
