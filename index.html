@@ -379,6 +379,8 @@ const unitsList = [];
     const fileInput = document.getElementById('receiptphoto');
       const files = fileInput.files;
 
+	console.log("Files selected: ", files.length);
+
       if (files.length > 0) {
         const fileReaders = [];
         const base64Strings = [];
@@ -389,20 +391,24 @@ const unitsList = [];
           reader.onload = function(e) {
             base64Strings.push(e.target.result.split(',')[1]); // Base64 string
             fileTypes.push(files[i].type); // File MIME type
+		  console.log("Processed file: ", files[i].name);
             if (base64Strings.length === files.length) {
               formData.append('photoData', JSON.stringify(base64Strings));
               formData.append('fileTypes', JSON.stringify(fileTypes));
+		    console.log("FormData before sending: ", formData);
 	      sendData(formData);
 	    }
 	  };
 	  reader.readAsDataURL(files[i]);
 	}
       } else {
+	      console.log("No files to process, sending data directly.");
 	sendData(formData);
       }		  
 });
     
-function sendData(formData) {	debugger;				 
+function sendData(formData) {	debugger;
+			     console.log("Sending Data...");
     const data = {};
     formData.forEach((value, key) => {
       data[key] = value;
