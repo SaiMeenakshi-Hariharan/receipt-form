@@ -408,6 +408,8 @@ function sendData(formData) {
       data[key] = value;
     });
 
+    console.log('Data to be sent:', data);
+    
     fetch('https://script.google.com/macros/s/AKfycbz4XzMRJtoE2Qm33KP6AVDCckhoRXpN-Sppx6spIdZLVTd34kXZ-Ck68ykcUn0Gx1Np/exec', {
       method: 'POST',
       headers: {
